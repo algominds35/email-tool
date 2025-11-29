@@ -79,13 +79,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Add to processing queue
-    await addCampaignToQueue(campaign.id, userId);
+    // Add to processing queue (if Redis is configured)
+    const job = await addCampaignToQueue(campaign.id, userId);
 
     return NextResponse.json({
       success: true,
       campaign,
-      message: `Campaign created with ${leads.length} leads. Processing started.`,
+      message: job 
+        ? `Campaign created with ${leads.length} leads. Processing started.`
+        : `Campaign created with ${leads.length} leads. Configure Redis to enable automatic processing.`,
     });
   } catch (error) {
     console.error('Error creating campaign:', error);
