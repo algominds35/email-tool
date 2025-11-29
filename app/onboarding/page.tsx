@@ -31,7 +31,7 @@ export default function OnboardingPage() {
       });
 
       if (response.ok) {
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
       } else {
         alert('Error saving onboarding data');
       }
