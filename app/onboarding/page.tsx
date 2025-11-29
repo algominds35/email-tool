@@ -78,7 +78,7 @@ export default function OnboardingPage() {
             </div>
 
             <div>
-              <Label htmlFor="valueProp">What's your main value proposition?</Label>
+              <Label htmlFor="valueProp">What&apos;s your main value proposition?</Label>
               <textarea
                 id="valueProp"
                 placeholder="We help sales teams save 15 hours/week on research and personalization..."

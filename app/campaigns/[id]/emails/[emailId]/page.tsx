@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -22,11 +22,7 @@ export default function EmailDetailPage({
   const [editedSubject, setEditedSubject] = useState('');
   const [editedBody, setEditedBody] = useState('');
 
-  useEffect(() => {
-    fetchEmail();
-  }, []);
-
-  const fetchEmail = async () => {
+  const fetchEmail = useCallback(async () => {
     try {
       const response = await fetch(`/api/emails/${params.emailId}`);
       const data = await response.json();
@@ -38,7 +34,11 @@ export default function EmailDetailPage({
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.emailId]);
+
+  useEffect(() => {
+    fetchEmail();
+  }, [fetchEmail]);
 
   const handleSave = async () => {
     setLoading(true);
