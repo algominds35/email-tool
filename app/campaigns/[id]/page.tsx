@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { notFound } from 'next/navigation';
+import { ProcessCampaignButton } from './ProcessCampaignButton';
 
 export default async function CampaignDetailPage({ params }: { params: { id: string } }) {
   const { userId } = await auth();
@@ -96,6 +97,17 @@ export default async function CampaignDetailPage({ params }: { params: { id: str
               </div>
             )}
           </div>
+
+          {campaign.status === 'pending' && (
+            <Card>
+              <CardContent className="p-6 text-center">
+                <p className="text-gray-600 mb-4">
+                  Campaign created. Click below to start processing leads and generating emails.
+                </p>
+                <ProcessCampaignButton campaignId={campaign.id} />
+              </CardContent>
+            </Card>
+          )}
 
           {campaign.status === 'processing' && (
             <Card>
