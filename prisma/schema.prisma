@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String     @id @default(cuid())
+  clerkUserId       String     @unique
+  email             String     @unique
+  name              String?
+  campaigns         Campaign[]
+  
+  // User's business context (for email generation)
+  companyName       String?
+  productDescription String?    @db.Text
+  valueProp         String?    @db.Text
+  targetAudience    String?    @db.Text
+  writingSamples    String?    @db.Text // JSON string of sample emails
+  
+  stripeCustomerId  String?
+  subscriptionStatus String?   @default("free") // free, trial, active, cancelled
+  emailsRemaining   Int        @default(10)    // Free tier starts with 10
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+model Campaign {
+  id                String     @id @default(cuid())
+  name              String
+  userId            String
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  leads             Lead[]
+  
+  status            String     @default("pending") // pending, processing, complete, error
+  totalLeads        Int        @default(0)
+  processedLeads    Int        @default(0)
+  source            String?    // csv_upload, api_import
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  processedAt       DateTime?
+}
+
+model Lead {
+  id                String     @id @default(cuid())
+  campaignId        String
+  campaign          Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  
+  email             String
+  firstName         String
+  lastName          String?
+  company           String?
+  title             String?
+  linkedinUrl       String?
+  companyWebsite    String?
+  
+  // Research data (JSON)
+  researchData      Json?
+  
+  emails            Email[]
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+model Email {
+  id                String     @id @default(cuid())
+  leadId            String
+  lead              Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  subject           String
+  body              String     @db.Text
+  confidenceScore   Int        // 0-100
+  researchSummary   String?    @db.Text
+  
+  status            String     @default("generated") // generated, approved, edited, rejected
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
