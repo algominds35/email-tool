@@ -47,26 +47,26 @@ export async function POST(
         ]);
 
         // Generate email
-        const emailData = await generateEmail({
-          lead: {
+        const emailData = await generateEmail(
+          {
             firstName: lead.firstName,
             lastName: lead.lastName || '',
             email: lead.email,
             company: lead.company || '',
             title: lead.title || '',
           },
-          research: {
-            linkedin: linkedinData,
+          {
+            linkedIn: linkedinData,
             website: websiteData,
             news: newsData,
           },
-          userContext: {
+          {
             companyName: campaign.user.companyName || '',
             productDescription: campaign.user.productDescription || '',
             valueProp: campaign.user.valueProp || '',
             targetAudience: campaign.user.targetAudience || '',
-          },
-        });
+          }
+        );
 
         // Score email
         const qualityScore = scoreEmail(emailData.subject, emailData.body);
