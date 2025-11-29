@@ -31,7 +31,7 @@ export function parseCSV(csvText: string): Promise<CSVLead[]> {
         const validLeads = leads.filter(lead => lead.email && lead.first_name);
         resolve(validLeads);
       },
-      error: (error) => reject(error),
+      error: (error: Error) => reject(error),
     });
   });
 }
