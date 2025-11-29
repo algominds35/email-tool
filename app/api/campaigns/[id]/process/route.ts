@@ -79,11 +79,7 @@ export async function POST(
             body: emailData.body,
             status: 'generated',
             confidenceScore: qualityScore,
-            researchData: JSON.stringify({
-              linkedin: linkedinData,
-              website: websiteData,
-              news: newsData,
-            }),
+            researchSummary: `Research sources: ${websiteData ? 'Website' : ''} ${linkedinData ? 'LinkedIn' : ''} ${newsData ? 'News' : ''}`,
           },
         });
 
