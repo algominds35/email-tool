@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
     const { credits } = await request.json();
     
     const user = await prisma.user.update({
-      where: { clerkId: authResult.userId },
+      where: { clerkUserId: authResult.userId },
       data: {
-        emailCredits: {
+        emailsRemaining: {
           increment: credits || 1000
         }
       }
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       message: 'Credits added successfully',
-      newBalance: user.emailCredits 
+      newBalance: user.emailsRemaining 
     });
   } catch (error) {
     console.error('Error adding credits:', error);
