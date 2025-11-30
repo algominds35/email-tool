@@ -7,6 +7,8 @@ import { getWebsiteData, extractDomain } from '@/lib/research/website';
 import { getCompanyNews } from '@/lib/research/news';
 import { generateEmail } from '@/lib/ai/email-generator';
 import { scoreEmail } from '@/lib/ai/quality-scorer';
+import { findBestAngle } from '@/lib/ai/angle-finder';
+import { processUserResearch } from '@/lib/research/url-scraper';
 
 interface ProcessCampaignJob {
   campaignId: string;
@@ -43,11 +45,18 @@ export const campaignWorker = new Worker<ProcessCampaignJob>(
           try {
             console.log(`Processing lead: ${lead.email}`);
 
-            // STEP 1: Research lead
+            // STEP 1: Process user-provided research (URLs or text)
+            let processedUserResearch: string | null = null;
+            if (lead.userResearch) {
+              console.log(`🔍 Processing user research for ${lead.email}`);
+              processedUserResearch = await processUserResearch(lead.userResearch);
+            }
+
+            // STEP 2: Auto-research lead (only if no user research)
             const [linkedInData, websiteData, newsData] = await Promise.all([
-              getLinkedInData(lead.linkedinUrl),
-              getWebsiteData(lead.companyWebsite || extractDomain(lead.email)),
-              getCompanyNews(lead.company),
+              !processedUserResearch ? getLinkedInData(lead.linkedinUrl) : null,
+              !processedUserResearch ? getWebsiteData(lead.companyWebsite || extractDomain(lead.email)) : null,
+              !processedUserResearch ? getCompanyNews(lead.company) : null,
             ]);
 
             const research = {
@@ -62,7 +71,12 @@ export const campaignWorker = new Worker<ProcessCampaignJob>(
               data: { researchData: research },
             });
 
-            // STEP 2: Get user context
+            // STEP 3: Find best angle - prioritize user research!
+            console.log(`Finding best angle for: ${lead.email}`);
+            const angle = await findBestAngle(lead, research, processedUserResearch);
+            console.log(`Found angle (${angle.confidence}%): ${angle.primaryAngle}`);
+
+            // STEP 3: Get user context
             const user = await prisma.user.findUnique({
               where: { clerkUserId: userId },
             });
@@ -71,13 +85,13 @@ export const campaignWorker = new Worker<ProcessCampaignJob>(
               throw new Error('User not found');
             }
 
-            // STEP 3: Generate email with OpenAI
-            const emailData = await generateEmail(lead, research, user);
+            // STEP 4: Generate email with angle-first approach
+            const emailData = await generateEmail(lead, research, user, angle);
 
-            // STEP 4: Score quality
-            const score = scoreEmail(emailData.body, research);
+            // STEP 5: Score quality (use angle confidence as base score)
+            const score = Math.max(angle.confidence, scoreEmail(emailData.body, research));
 
-            // STEP 5: Save email
+            // STEP 6: Save email with angle data
             await prisma.email.create({
               data: {
                 leadId: lead.id,
@@ -85,6 +99,10 @@ export const campaignWorker = new Worker<ProcessCampaignJob>(
                 body: emailData.body,
                 confidenceScore: score,
                 researchSummary: emailData.summary,
+                angle: angle.primaryAngle,
+                angleType: angle.angleType,
+                angleEvidence: angle.supportingEvidence,
+                angleConfidence: angle.confidence,
               },
             });
 

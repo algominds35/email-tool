@@ -8,6 +8,7 @@ export interface CSVLead {
   title?: string;
   linkedin_url?: string;
   company_website?: string;
+  research_notes?: string;  // NEW: User-provided research/trigger events
 }
 
 export function parseCSV(csvText: string): Promise<CSVLead[]> {
@@ -25,6 +26,7 @@ export function parseCSV(csvText: string): Promise<CSVLead[]> {
           title: row.title || row.job_title || '',
           linkedin_url: row.linkedin_url || row.linkedin || '',
           company_website: row.company_website || row.website || '',
+          research_notes: row.research_notes || row.notes || row.research || row.trigger || '',
         }));
 
         // Filter out invalid leads (must have email and first name)

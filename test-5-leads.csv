@@ -1,5 +1,4 @@
-email,first_name,last_name,company,linkedin_url,website
-sarah.chen@techstartup.io,Sarah,Chen,TechStartup,https://www.linkedin.com/in/sarahchen,https://techstartup.io
-mike.jones@salesforce.com,Mike,Jones,Salesforce,https://www.linkedin.com/in/mikejones,https://www.salesforce.com
-emma.williams@shopify.com,Emma,Williams,Shopify,https://www.linkedin.com/in/emmawilliams,https://www.shopify.com
-
+email,first_name,last_name,company,research_notes
+sarah.chen@techstartup.io,Sarah,Chen,TechStartup,"Just posted about hiring 5 engineers and struggling with onboarding at scale"
+mike.jones@salesforce.com,Mike,Jones,Salesforce,"Recently promoted to VP Sales. Team growing fast but drowning in manual processes"
+emma.williams@shopify.com,Emma,Williams,Shopify,"Company raised $50M Series B last week. Announced major expansion plans"

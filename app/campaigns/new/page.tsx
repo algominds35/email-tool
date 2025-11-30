@@ -108,9 +108,12 @@ export default function NewCampaignPage() {
                     required
                   />
                   <p className="text-sm text-gray-600 mt-2">
-                    Your CSV should include: <code className="bg-gray-100 px-1 rounded">email</code>,{' '}
-                    <code className="bg-gray-100 px-1 rounded">first_name</code>,{' '}
-                    <code className="bg-gray-100 px-1 rounded">linkedin_url</code> (optional)
+                    <strong>Required:</strong> <code className="bg-gray-100 px-1 rounded">email</code>,{' '}
+                    <code className="bg-gray-100 px-1 rounded">first_name</code>
+                    <br />
+                    <strong className="text-blue-600">🎯 NEW - Recommended:</strong>{' '}
+                    <code className="bg-blue-100 px-1 rounded">research_notes</code> - paste LinkedIn post URLs, 
+                    company news, or trigger events you found. AI will extract the best angle!
                   </p>
                 </div>
 
@@ -123,10 +126,15 @@ export default function NewCampaignPage() {
                 <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                   <h4 className="font-semibold text-blue-900 mb-2">📋 CSV Format Example:</h4>
                   <pre className="text-xs bg-white p-2 rounded overflow-x-auto">
-{`email,first_name,last_name,company,linkedin_url
-john@acme.com,John,Smith,Acme Corp,linkedin.com/in/johnsmith
-sarah@techco.com,Sarah,Johnson,TechCo,linkedin.com/in/sarahj`}
+{`email,first_name,last_name,company,research_notes
+john@acme.com,John,Smith,Acme,"Just posted about hiring spree - scaling team fast"
+sarah@tech.com,Sarah,Johnson,TechCo,"https://linkedin.com/posts/sarahj-struggling-with-onboarding"
+mike@shop.com,Mike,Davis,ShopCo,"Company raised $50M Series B last week"`}
                   </pre>
+                  <p className="text-xs text-blue-800 mt-2">
+                    💡 <strong>Pro Tip:</strong> The <code className="bg-blue-100 px-1">research_notes</code> column is your secret weapon! 
+                    Paste URLs or text about trigger events, recent posts, or news - and our AI will find the perfect angle.
+                  </p>
                 </div>
 
                 <Button type="submit" className="w-full" size="lg" disabled={loading}>

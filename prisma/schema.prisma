@@ -63,7 +63,10 @@ model Lead {
   linkedinUrl       String?
   companyWebsite    String?
   
-  // Research data (JSON)
+  // NEW: User-provided research (text or URL)
+  userResearch      String?    @db.Text
+  
+  // Research data (JSON) - auto-scraped from APIs
   researchData      Json?
   
   emails            Email[]
@@ -81,6 +84,12 @@ model Email {
   body              String     @db.Text
   confidenceScore   Int        // 0-100
   researchSummary   String?    @db.Text
+  
+  // NEW: Angle-finding fields
+  angle             String?    @db.Text  // Primary angle/reason to reach out
+  angleType         String?               // trigger_event, pain_point, recent_activity, timing_signal, generic
+  angleEvidence     String?    @db.Text  // Supporting evidence from research
+  angleConfidence   Int?                  // Confidence score for this angle (0-100)
   
   status            String     @default("generated") // generated, approved, edited, rejected
   

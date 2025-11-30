@@ -161,6 +161,40 @@ export default function EmailDetailPage({
             </CardHeader>
           </Card>
 
+          {/* NEW: Angle/Reason to Reach Out */}
+          {email.angle && (
+            <Card className="mb-6 border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    🎯 Why Reach Out
+                  </CardTitle>
+                  <div className="flex gap-2">
+                    <Badge variant="secondary">
+                      {email.angleType?.replace('_', ' ') || 'angle'}
+                    </Badge>
+                    {email.angleConfidence && (
+                      <Badge variant={email.angleConfidence >= 70 ? 'default' : 'outline'}>
+                        {email.angleConfidence}% confidence
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-lg font-medium text-blue-900 mb-3">
+                  {email.angle}
+                </p>
+                {email.angleEvidence && (
+                  <div className="bg-white border border-blue-200 rounded-lg p-3">
+                    <p className="text-xs font-semibold text-blue-700 uppercase mb-1">Evidence</p>
+                    <p className="text-sm text-gray-700">{email.angleEvidence}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
           {/* Email Content */}
           <Card className="mb-6">
             <CardHeader>

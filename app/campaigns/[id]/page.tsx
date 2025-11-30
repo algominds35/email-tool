@@ -169,6 +169,31 @@ export default async function CampaignDetailPage({ params }: { params: { id: str
                               </Badge>
                             </div>
                             <div className="text-sm text-gray-600 mb-2">{lead.email}</div>
+                            
+                            {/* NEW: Show angle prominently */}
+                            {email.angle && (
+                              <div className="mt-3 mb-3 p-3 bg-blue-50 border-l-4 border-blue-500 rounded">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="text-xs font-semibold text-blue-700 uppercase">
+                                    {email.angleType?.replace('_', ' ') || 'Angle'}
+                                  </span>
+                                  {email.angleConfidence && (
+                                    <span className="text-xs text-blue-600">
+                                      {email.angleConfidence}% confidence
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-sm font-medium text-blue-900">
+                                  {email.angle}
+                                </p>
+                                {email.angleEvidence && (
+                                  <p className="text-xs text-blue-700 mt-1">
+                                    💡 {email.angleEvidence.substring(0, 100)}...
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                            
                             <div className="mt-3">
                               <div className="text-sm font-medium text-gray-700 mb-1">
                                 Subject: {email.subject}

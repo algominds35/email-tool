@@ -71,6 +71,7 @@ export async function POST(req: NextRequest) {
             title: lead.title || null,
             linkedinUrl: lead.linkedin_url || null,
             companyWebsite: lead.company_website || null,
+            userResearch: lead.research_notes || null,  // NEW: Save user's research!
           })),
         },
       },

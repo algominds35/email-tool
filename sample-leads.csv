@@ -1,7 +1,6 @@
-email,first_name,last_name,company,linkedin_url,website
-sarah.chen@techstartup.io,Sarah,Chen,TechStartup,https://www.linkedin.com/in/sarahchen,https://techstartup.io
-mike.jones@salesforce.com,Mike,Jones,Salesforce,https://www.linkedin.com/in/mikejones,https://www.salesforce.com
-emma.williams@shopify.com,Emma,Williams,Shopify,https://www.linkedin.com/in/emmawilliams,https://www.shopify.com
-john.smith@stripe.com,John,Smith,Stripe,https://www.linkedin.com/in/johnsmith,https://www.stripe.com
-lisa.brown@hubspot.com,Lisa,Brown,HubSpot,https://www.linkedin.com/in/lisabrown,https://www.hubspot.com
-
+email,first_name,last_name,company,title,research_notes
+sarah.chen@techstartup.io,Sarah,Chen,TechStartup,Founder & CEO,"Just posted on LinkedIn about hiring 5 AI engineers. Company is scaling fast and struggling with onboarding process."
+mike.jones@salesforce.com,Mike,Jones,Salesforce,VP of Sales,"Recently promoted to VP. Posted about challenges with AI-driven sales tools and manual processes slowing down the team."
+emma.williams@shopify.com,Emma,Williams,Shopify,Head of Growth,"https://linkedin.com/posts/emmawilliams-struggling-with-customer-onboarding-automation"
+john.smith@stripe.com,John,Smith,Stripe,Product Manager,"Company just raised Series C funding. Announced expansion to 3 new markets and hiring 50+ people this quarter."
+lisa.brown@hubspot.com,Lisa,Brown,HubSpot,Director of Marketing,"Posted yesterday about marketing team drowning in repetitive tasks. Looking for automation solutions."
